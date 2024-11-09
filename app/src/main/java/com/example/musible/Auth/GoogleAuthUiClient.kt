@@ -13,10 +13,11 @@ import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.cancellation.CancellationException
 import com.example.musible.R
 
+@Suppress("DEPRECATION")
 class GoogleAuthUiClient(
     private val context: Context,
-    private val oneTapClient : SignInClient
-){
+    private val oneTapClient: SignInClient
+) {
     private val auth = Firebase.auth
 
     suspend fun signIn(): IntentSender? {
@@ -24,9 +25,9 @@ class GoogleAuthUiClient(
             oneTapClient.beginSignIn(
                 buildSignInRequest()
             ).await()
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
+            if (e is CancellationException) throw e
             null
         }
         return result?.pendingIntent?.intentSender
@@ -43,14 +44,15 @@ class GoogleAuthUiClient(
                     UserData(
                         userId = uid,
                         username = displayName,
-                        profilePictureUrl = photoUrl?.toString()
+                        profilePictureUrl = photoUrl?.toString(),
+                        email = email
                     )
                 },
                 errorMessage = null
             )
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
+            if (e is CancellationException) throw e
             SignInResult(
                 data = null,
                 errorMessage = e.message
@@ -62,9 +64,9 @@ class GoogleAuthUiClient(
         try {
             oneTapClient.signOut().await()
             auth.signOut()
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
+            if (e is CancellationException) throw e
         }
     }
 
@@ -72,7 +74,8 @@ class GoogleAuthUiClient(
         UserData(
             userId = uid,
             username = displayName,
-            profilePictureUrl = photoUrl?.toString()
+            profilePictureUrl = photoUrl?.toString(),
+            email = email
         )
     }
 
