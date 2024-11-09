@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.play.services.auth)
 
-
     //Lib for http protocol and fetch api
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
